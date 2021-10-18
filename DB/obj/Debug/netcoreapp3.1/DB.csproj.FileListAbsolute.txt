@@ -1,0 +1,13 @@
+C:\Projetos\WeChip\DB\bin\Debug\netcoreapp3.1\DB.deps.json
+C:\Projetos\WeChip\DB\bin\Debug\netcoreapp3.1\DB.dll
+C:\Projetos\WeChip\DB\bin\Debug\netcoreapp3.1\DB.pdb
+C:\Projetos\WeChip\DB\obj\Debug\netcoreapp3.1\DB.csproj.AssemblyReference.cache
+C:\Projetos\WeChip\DB\obj\Debug\netcoreapp3.1\DB.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projetos\WeChip\DB\obj\Debug\netcoreapp3.1\DB.AssemblyInfoInputs.cache
+C:\Projetos\WeChip\DB\obj\Debug\netcoreapp3.1\DB.AssemblyInfo.cs
+C:\Projetos\WeChip\DB\obj\Debug\netcoreapp3.1\DB.csproj.CoreCompileInputs.cache
+C:\Projetos\WeChip\DB\obj\Debug\netcoreapp3.1\DB.dll
+C:\Projetos\WeChip\DB\obj\Debug\netcoreapp3.1\DB.pdb
+C:\Projetos\WeChip\DB\bin\Debug\netcoreapp3.1\Domain.dll
+C:\Projetos\WeChip\DB\bin\Debug\netcoreapp3.1\Domain.pdb
+C:\Projetos\WeChip\DB\obj\Debug\netcoreapp3.1\DB.csproj.CopyComplete

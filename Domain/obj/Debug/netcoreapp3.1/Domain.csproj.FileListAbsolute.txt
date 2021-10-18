@@ -1,0 +1,10 @@
+C:\Projetos\WeChip\Domain\bin\Debug\netcoreapp3.1\Domain.deps.json
+C:\Projetos\WeChip\Domain\bin\Debug\netcoreapp3.1\Domain.dll
+C:\Projetos\WeChip\Domain\bin\Debug\netcoreapp3.1\Domain.pdb
+C:\Projetos\WeChip\Domain\obj\Debug\netcoreapp3.1\Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projetos\WeChip\Domain\obj\Debug\netcoreapp3.1\Domain.AssemblyInfoInputs.cache
+C:\Projetos\WeChip\Domain\obj\Debug\netcoreapp3.1\Domain.AssemblyInfo.cs
+C:\Projetos\WeChip\Domain\obj\Debug\netcoreapp3.1\Domain.csproj.CoreCompileInputs.cache
+C:\Projetos\WeChip\Domain\obj\Debug\netcoreapp3.1\Domain.dll
+C:\Projetos\WeChip\Domain\obj\Debug\netcoreapp3.1\Domain.pdb
+C:\Projetos\WeChip\Domain\obj\Debug\netcoreapp3.1\Domain.csproj.AssemblyReference.cache

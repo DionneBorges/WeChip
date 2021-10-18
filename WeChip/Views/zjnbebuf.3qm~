@@ -1,0 +1,172 @@
+﻿using DB;
+using Domain;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+
+namespace WeChip.Views
+{
+    public partial class FrmOferta : Form
+    {
+        WeChipContext context;
+
+        private decimal TotOferta;
+        private bool uncheckedAll = true;
+        private CheckBox checboxReader;
+
+        public FrmOferta()
+        {
+            InitializeComponent();
+            context = new WeChipContext();
+
+            cbBusca.SelectedIndex = 0;
+        }
+
+        private void btnSair_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void tbBusca_Leave(object sender, EventArgs e)
+        {
+            BuscaCliente();
+        }
+
+        private void BuscaCliente()
+        {
+            if (tbBusca.Text != "")
+            {
+                var clientes = new List<Cliente>();
+
+                if (cbBusca.SelectedIndex == 0)
+                    clientes = context.Clientes.Where(c => c.Nome.Contains(tbBusca.Text)).ToList();
+                else
+                    clientes = context.Clientes.Where(c => c.CPF.Contains(tbBusca.Text)).ToList();
+
+                gvClientes.DataSource = clientes;
+
+                gvClientes.Columns[0].Visible = false;
+                gvClientes.Columns[1].Width = 180;
+                gvClientes.Columns[2].Width = 90;
+                gvClientes.Columns[3].Width = 80;
+                gvClientes.Columns[4].Width = 70;
+                gvClientes.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                gvClientes.Columns[5].Visible = false;
+
+                //gvClientes.Rows.Clear();
+                //gvClientes.ColumnCount = 4;
+                //gvClientes.Columns[0].Name = "Nome";
+                //gvClientes.Columns[1].Name = "CPF";
+                //gvClientes.Columns[2].Name = "Telefone";
+                //gvClientes.Columns[3].Name = "Saldo";
+
+                //var rows = new List<string[]>();
+                //foreach (var cliente in clientes)            
+                //    gvClientes.Rows.Add(new string[] { cliente.Nome, cliente.CPF, cliente.Telefone, cliente.Saldo.ToString("N2")});
+            }
+        }
+
+        private void CarregaProdutos()
+        {
+            CheckBoxReader();
+
+            var produtos = context.Produtos.OrderBy(p => p.Descricao).ToList();
+
+            gvProdutos.DataSource = produtos;
+
+            gvProdutos.Columns[1].Visible = false;
+            gvProdutos.Columns[2].Width = 150;
+            gvProdutos.Columns[3].Width = 70;
+            gvProdutos.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;            
+        }
+
+        private void CheckBoxReader()
+        {
+            //Cria um checkbox e adiciona na coluna 0
+            DataGridViewCheckBoxColumn checkBoxColumn = new DataGridViewCheckBoxColumn();
+            checkBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            checkBoxColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            gvProdutos.Columns.Insert(0, checkBoxColumn);
+
+            //Pega a Localização onde irá ficar checkbox que marca todos os itens
+            Rectangle rect = gvProdutos.GetCellDisplayRectangle(0, -1, false);
+            rect.X = rect.Location.X + (rect.Width / 2);
+            rect.Y = rect.Location.Y + (rect.Height / 4);
+            
+            //Cria checkbox para marcar todos os itens
+            checboxReader = new CheckBox();
+            checboxReader.BackColor = Color.FromArgb(0, 80, 200);
+            checboxReader.Name = "checkboxHeader";
+            checboxReader.Size = new Size(18, 18);
+            checboxReader.Location = rect.Location;
+
+            //passa o evento onde marca todos os itens
+            checboxReader.CheckedChanged += new EventHandler(CheckedChanged);
+
+            gvProdutos.Controls.Add(checboxReader);
+        }
+
+        private void CheckedChanged(object sender, EventArgs e)
+        {
+            if (checboxReader.Checked)
+            {
+                for (int i = 0; i < gvProdutos.RowCount; i++)
+                {
+                    gvProdutos[0, i].Value = true;
+                }
+            }
+            else
+            {
+                if (uncheckedAll)
+                {
+                    for (int i = 0; i < gvProdutos.RowCount; i++)
+                    {
+                        gvProdutos[0, i].Value = false;
+                    }
+                }
+            }
+            uncheckedAll = true;
+        }
+
+        private void tbBusca_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+                BuscaCliente();
+        }
+
+        private void btnOfertar_Click(object sender, EventArgs e)
+        {
+            CarregaProdutos();
+        }
+
+        private void gvProdutos_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            SomaItens();
+        }
+
+        private void gvProdutos_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            SomaItens();
+        }
+
+        private void SomaItens()
+        {
+            TotOferta = 0;
+            int qtdLinhas = gvProdutos.Rows.Cast<DataGridViewRow>().Where(p => Convert.ToBoolean(p.Cells[0].Value) == true).Count();
+
+            if (qtdLinhas > 0)
+            {
+                for (int i = gvProdutos.RowCount - 1; i >= 0; i--)
+                {
+                    DataGridViewRow row = gvProdutos.Rows[i];
+                    if (Convert.ToBoolean(row.Cells[0].Value) == true)
+                        TotOferta += Convert.ToDecimal(row.Cells[3].Value);
+                }
+            }
+
+            lTotal.Text = $"Total: R$ {TotOferta.ToString("N2")}";        
+        }
+    }
+}
